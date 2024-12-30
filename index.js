@@ -1,12 +1,15 @@
-const { importer } = require('ipfs-unixfs-importer')
+import { importer } from 'ipfs-unixfs-importer'
 
 const block = {
-  get: async cid => { throw new Error(`unexpected block API get for ${cid}`) },
-  put: async () => { throw new Error('unexpected block API put') }
+  get: async (cid) => {
+    throw new Error(`unexpected block API get for ${cid}`)
+  },
+  put: async () => {
+    throw new Error('unexpected block API put')
+  }
 }
 
-exports.of = async (content, options) => {
-  options = options || {}
+export const of = async (content, options = {}) => {
   options.onlyHash = true
 
   if (typeof content === 'string') {

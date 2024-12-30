@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const fs = require('fs')
-const meow = require('meow')
-const Hash = require('.')
+import fs from 'fs'
+import meow from 'meow'
+import { of } from './index.js'
 
 const cli = meow(`
   Usage
@@ -18,7 +18,7 @@ const cli = meow(`
       default: 1
     },
     rawLeaves: {
-      type: 'boolean',
+      type: 'boolean'
     }
   }
 })
@@ -29,8 +29,10 @@ async function main (cli) {
     stream = fs.createReadStream(cli.input[0])
   }
   const cidVersion = cli.flags.cidVersion
-  const rawLeaves = (cidVersion === 1 && cli.flags.rawLeaves === undefined) ? true : cli.flags.rawLeaves;
-  const hash = await Hash.of(stream, { cidVersion, rawLeaves })
+  const rawLeaves = (cidVersion === 1 && cli.flags.rawLeaves === undefined)
+    ? true
+    : cli.flags.rawLeaves
+  const hash = await of(stream, { cidVersion, rawLeaves })
   console.log(hash)
 }
 
